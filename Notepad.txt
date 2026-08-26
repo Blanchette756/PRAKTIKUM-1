@@ -1,0 +1,11 @@
+Request Method	: GET
+Status Code	: 200 OKE ( permintaan web atau API Anda telah berhasil diterima, dipahami, dan diproses oleh server )
+Content-Type	: text/html
+Waktu Response	: 
+
+Waktu tunggu respons dari peladen (Waiting for server response): 35.31 ms
+
+Waktu pengunduhan konten (Content Download): 0.52 ms
+
+Total waktu penyelesaian (akumulasi seluruh proses antrean hingga unduhan selesai): sekitar 37.51 ms
+
