@@ -4,12 +4,60 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Praktikum Pemrograman Web</title>
+    <meta name="description" content="Portal inventaris laboratorium Teknik Komputer">
+    <title>WebLab - Jaringan Komputer</title>
 </head>
 
 <body>
-    <h1>Praktikum Pemrograman Web</h1>
-    <p>Repository awal OBE.</p>
+    <header>
+        <a href="#main">Lewati ke konten utama</a>
+        <h1>WebLab - Jaringan Komputer</h1>
+        <nav>
+            <ul>
+                <li><a href="#layanan">Layanan</a></li>
+                <li><a href="#artikel">Artikel</a></li>
+                <li><a href="#kontak">Kontak</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main id="main">
+        <section id="layanan">
+            <h2>Selamat datang di WebLab</h2>
+            <p>Portal Layanan laboratorium Teknik Komputer.</p>
+        </section>
+
+        <section id="artikel">
+            <h2>Jaringan Komputer</h2>
+            <article>
+                <h3>Analisis Jaringan</h3>
+                <img src="img/jaringan.jpeg" alt="Diagram Jaringan Komputer" width="300">
+                <p>Analisis jaringan adalah proses evaluasi dan penilaian terhadap kinerja jaringan komputer. Analisis ini bertujuan untuk memberikan wawasan kepada pengguna mengenai tren kinerja jaringan, potensi masalah, dan risiko yang terkait dengan
+                    penggunaan jaringan tersebut.</p>
+            </article>
+        </section>
+
+        <section id="kontak">
+            <h2>Kontak</h2>
+            <form action="#" method="post">
+                <div style="margin-bottom: 10px;">
+                    <label for="email">Alamat Email</label>
+                    <input id="email" name="email" type="email" placeholder="Masukkan alamat email Anda" required>
+                </div>
+                <div style="margin-bottom: 10px;">
+                    <label for="detail">Deskripsi Kendala</label><br>
+                    <textarea id="detail" name="detail" rows="4" required></textarea>
+                </div>
+                <div>
+                    <button type="submit">Kirim Laporan</button>
+                </div>
+            </form>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 WebLab - Inventaris Laboratorium</p>
+    </footer>
 </body>
 
 </html>
