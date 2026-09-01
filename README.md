@@ -2,18 +2,26 @@
 
 ## Identitas Mahasiswa dan Mata Kuliah
 *   **Nama:** Rizky Rahmad Dani
+*   **Npm:** 2440304001
 *   **Program Studi:** Teknik Komputer, Semester 5
 *   **Institusi:** Universitas Borneo Tarakan
 *   **Mata Kuliah:** Praktikum Pemrograman Web
 
 ## Deskripsi Proyek
-Repositori ini merupakan inisialisasi proyek awal untuk Praktikum Pemrograman Web berbasis Outcome-Based Education (OBE). Proyek ini mencakup konfigurasi struktur dokumen HTML dasar serta penyiapan lingkungan pengembangan menggunakan peladen lokal dan sistem kontrol versi Git.
+Repositori ini merupakan inisialisasi proyek awal untuk Praktikum Pemrograman Web berbasis Outcome-Based Education (OBE). Pada iterasi saat ini (Modul 02), pengembangan difokuskan pada implementasi struktur HTML5 semantik dan penerapan standar aksesibilitas web dasar untuk membangun antarmuka sistem pengelolaan jaringan komputer. 
+
+## Fitur yang Telah Diselesaikan
+*   Penyusunan elemen semantik HTML5 (`<header>`, `<nav>`, `<main>`, `<section>`, `<article>`, `<footer>`).
+*   Penerapan hierarki judul (*heading hierarchy*) yang logis.
+*   Pembuatan formulir pelaporan aksesibel dengan integrasi atribut `<label>` dan `<input>`.
+*   Penerapan teks alternatif (`alt`) pada gambar dan tautan pintasan (*skip link*) untuk navigasi papan ketik.
+*   Penerapan manajemen kontrol versi (*branching*, *commit*, dan *merging*) menggunakan Git.
 
 ## Kebijakan dan Integritas Pengembangan
 Pengembangan basis kode ini mematuhi prinsip transparansi. Asisten kecerdasan buatan (AI) hanya difungsikan sebagai alat bantu analisis logika dan *debugging* sekunder. Seluruh eksekusi, penyesuaian arsitektur, dan verifikasi akhir sepenuhnya berada di bawah kendali dan tanggung jawab pengembang utama.
 
 ## Teknologi yang Digunakan
-*   HTML
+*   HTML5
 *   Laragon (Apache & PHP 8.4)
 *   Git / GitHub
 
