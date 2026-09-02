@@ -9,6 +9,12 @@
 ## Deskripsi Proyek
 Repositori ini merupakan inisialisasi proyek awal untuk Praktikum Pemrograman Web berbasis Outcome-Based Education (OBE). Proyek ini mencakup konfigurasi struktur dokumen HTML dasar serta penyiapan lingkungan pengembangan menggunakan peladen lokal dan sistem kontrol versi Git.
 
+<<<<<<< HEAD
+=======
+## Kebijakan dan Integritas Pengembangan
+Pengembangan basis kode ini mematuhi prinsip transparansi. Asisten kecerdasan buatan (AI) hanya difungsikan sebagai alat bantu analisis logika dan *debugging* sekunder. Seluruh eksekusi, penyesuaian arsitektur, dan verifikasi akhir sepenuhnya berada di bawah kendali dan tanggung jawab pengembang utama.
+
+>>>>>>> 287d49c2bbd4dbfbb90380a4bf0e299a1a7e18c0
 ## Teknologi yang Digunakan
 *   HTML
 *   Laragon (Apache & PHP 8.4)
