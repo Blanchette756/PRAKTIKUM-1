@@ -11,3 +11,5 @@
 
 https://share.gemini.google/QrfLWS7Z8roF
 | Menyelesaikan galat penolakan unggahan Git (Push Rejected) | Meminta solusi atas peringatan "failed to push some refs" | Opsi penyelesaian melalui penimpaan paksa (*force push*) atau integrasi (*pull*) | Galat disebabkan oleh perbedaan riwayat repositori lokal dan *remote* | Diterima, diputuskan menggunakan metode penimpaan paksa |
+
+https://share.gemini.google/QrfLWS7Z8roF
