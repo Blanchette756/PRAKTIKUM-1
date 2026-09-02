@@ -7,3 +7,6 @@
 | Mengidentifikasi parameter inspeksi jaringan pada peramban | Meminta lokasi "waktu response" dan "content type" | Arahan teknis untuk meninjau tab *Timing* dan *Headers* setelah *hard reload* | Lokasi metrik terverifikasi pada *Developer Tools* | Diterima dan dicatat pada laporan inspeksi |
 | Menyusun dokumentasi proyek awal | "buatkan aku Readme MD nya" | Berkas `README.md` terstruktur dengan format identitas dan instruksi OBE | Parameter konten sesuai dengan langkah ke-9 modul praktikum | Diterima dan diintegrasikan ke repositori |
 | Menyelesaikan galat penolakan unggahan Git (Push Rejected) | Meminta solusi atas peringatan "failed to push some refs" | Opsi penyelesaian melalui penimpaan paksa (*force push*) atau integrasi (*pull*) | Galat disebabkan oleh perbedaan riwayat repositori lokal dan *remote* | Diterima, diputuskan menggunakan metode penimpaan paksa |
+
+
+https://share.gemini.google/QrfLWS7Z8roF
