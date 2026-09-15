@@ -2,6 +2,7 @@
 <html lang="id">
 
 <head>
+    <link rel="stylesheet" href="styles.css">
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="Portal inventaris laboratorium Teknik Komputer">
@@ -13,7 +14,7 @@
         <a href="#main">Lewati ke konten utama</a>
         <h1>WebLab - Jaringan Komputer</h1>
         <nav>
-            <ul>
+            <ul class="nav-list">
                 <li><a href="#layanan">Layanan</a></li>
                 <li><a href="#artikel">Artikel</a></li>
                 <li><a href="#kontak">Kontak</a></li>
@@ -22,9 +23,14 @@
     </header>
 
     <main id="main">
-        <section id="layanan">
-            <h2>Selamat datang di WebLab</h2>
-            <p>Portal Layanan laboratorium Teknik Komputer.</p>
+        <section id="layanan" class="hero">
+            <div class="hero-content">
+                <h2 class="hero-title">Selamat datang di WebLab</h2>
+                <p>Portal Layanan laboratorium Teknik Komputer.</p>
+            </div>
+            <div class="hero-image">
+                <img src="img/jaringan.jpg" alt="Ilustrasi Laboratorium" style="width: 100%;">
+            </div>
         </section>
 
         <section id="artikel">
@@ -39,26 +45,26 @@
 
         <section id="alt">
             <h2>Alt Text</h2>
-            <article>
-                <h3>1 & 2. Informatif</h3>
-                <img src="img/informatif_1.jpg" alt="Diagram topologi jaringan komputer laboratorium" width="300">
-                <img src="img/informatif_2.jpg" alt="Macam Macam Jaringan Komputer" width="300">
-            </article>
-            <article>
-                <h3>3 & 4. Dekoratif</h3>
-                <div style="width:300px;height:160px;background:#ccc;display:flex;align-items:center;justify-content:center;margin-bottom:10px;">
-                    Gambar dekoratif &mdash; alt=""
-                </div>
-                <div style="width:300px;height:160px;background:#ccc;display:flex;align-items:center;justify-content:center;margin-bottom:10px;">
-                    Gambar dekoratif &mdash; alt=""
-                </div>
-            </article>
-            <article>
-                <h3>5. Gambar sebagai Link</h3>
-                <a href="img/jaringan.jpg">
-                    <img src="img/jaringan.jpg" alt="Buka gambar diagram jaringan ukuran penuh" width="300">
-                </a>
-            </article>
+            <div class="grid-3-kolom">
+                <article class="card">
+                    <h3>1 & 2. Informatif</h3>
+                    <img src="img/informatif_1.jpg" alt="Diagram topologi jaringan komputer laboratorium" width="300">
+                    <img src="img/informatif_2.jpg" alt="Macam Macam Jaringan Komputer" width="300">
+                </article>
+                <article class="card">
+                    <h3>3 & 4. Dekoratif</h3>
+                    <div style="width:300px;height:160px;background:#ccc;display:flex;align-items:center;justify-content:center;margin-bottom:10px;">
+                        Gambar dekoratif &mdash; alt=""
+                    </div>
+                </article>
+                <article class="card">
+                    <h3>5. Gambar sebagai Link</h3>
+                    <a href="img/jaringan.jpg">
+                        <img src="img/jaringan.jpg" alt="Buka gambar diagram jaringan ukuran penuh" width="300">
+                    </a>
+                </article>
+
+            </div>
         </section>
 
         <section id="kontak">
