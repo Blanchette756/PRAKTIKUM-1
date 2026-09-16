@@ -2,6 +2,7 @@
 <html lang="id">
 
 <head>
+    <link rel="stylesheet" href="styles.css">
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="Portal inventaris laboratorium Teknik Komputer">
@@ -10,47 +11,77 @@
 
 <body>
     <header>
-        <a href="#main">Melewai Navigasi</a>
+        <a href="#main">Lewati ke konten utama</a>
         <h1>WebLab - Jaringan Komputer</h1>
         <nav>
-            <ul>
-                <li><a href="#navigasi">Navigasi Utama</a></li>
+            <ul class="nav-list">
                 <li><a href="#layanan">Layanan</a></li>
+                <li><a href="#artikel">Artikel</a></li>
                 <li><a href="#kontak">Kontak</a></li>
             </ul>
         </nav>
     </header>
 
     <main id="main">
-        <section id="layanan">
-            <h2>Selamat datang di WebLab</h2>
-            <p>Portal Layanan laboratorium Teknik Komputer.</p>
+        <section id="layanan" class="hero">
+            <div class="hero-content">
+                <h2 class="hero-title">Selamat datang di WebLab</h2>
+                <p>Portal Layanan laboratorium Teknik Komputer.</p>
+            </div>
+            <div class="hero-image">
+                <img src="img/jaringan.jpg" alt="Ilustrasi Laboratorium" style="width: 100%; height: auto;">
+            </div>
         </section>
 
-        <section id="Artikel">
+        <section id="artikel">
             <h2>Jaringan Komputer</h2>
             <article>
                 <h3>Analisis Jaringan</h3>
-                <img src="img/jaringan.jpeg" alt="Diagram Jaringan Komputer" width="300">
+                <img src="img/jaringan.jpg" alt="Diagram Jaringan Komputer" style="width: 100%; height: auto;">
                 <p>Analisis jaringan adalah proses evaluasi dan penilaian terhadap kinerja jaringan komputer. Analisis ini bertujuan untuk memberikan wawasan kepada pengguna mengenai tren kinerja jaringan, potensi masalah, dan risiko yang terkait dengan
                     penggunaan jaringan tersebut.</p>
             </article>
         </section>
 
+        <section id="alt">
+            <h2>Alt Text</h2>
+            <div class="grid-3-kolom">
+                <article class="card">
+                    <h3>1 & 2. Informatif</h3>
+                    <img src="img/informatif_1.jpg" alt="Diagram topologi jaringan komputer laboratorium" style="width: 100%; height: auto;">
+                    <img src="img/informatif_2.jpg" alt="Macam Macam Jaringan Komputer" style="width: 100%; height: auto;">
+                </article>
+
+                <article class="card">
+                    <h3>3 & 4. Dekoratif</h3>
+                    <div style="width: 100%; height: 160px; background: #ccc; display: flex; align-items: center; justify-content: center; margin-bottom: 10px;">
+                        Gambar dekoratif &mdash; alt=""
+                    </div>
+                </article>
+
+                <article class="card">
+                    <h3>5. Gambar sebagai Link</h3>
+                    <a href="img/jaringan.jpg">
+                        <img src="img/jaringan.jpg" alt="Buka gambar diagram jaringan ukuran penuh" style="width: 100%; height: auto;">
+                    </a>
+                </article>
+            </div>
+        </section>
+
         <section id="kontak">
             <h2>Kontak</h2>
             <form action="#" method="post">
-                <div style="margin-bottom: 10px;">
+                <p style="margin-bottom: 10px;">
                     <label for="email">Alamat Email</label>
                     <input id="email" name="email" type="email" placeholder="Masukkan alamat email Anda" required>
-                </div>
-                <div style="margin-bottom: 10px;">
+                </p>
+                <p style="margin-bottom: 10px;">
                     <label for="detail">Deskripsi Kendala</label><br>
                     <textarea id="detail" name="detail" rows="4" required></textarea>
-                </div>
-                <div>
+                </p>
+                <p>
                     <button type="submit">Kirim Laporan</button>
-                </div>
+                </p>
             </form>
         </section>
     </main>
@@ -58,5 +89,6 @@
     <footer>
         <p>&copy; 2026 WebLab - Inventaris Laboratorium</p>
     </footer>
-    <title>Praktikum Pemrograman Web</title>
-    </head>
+</body>
+
+</html>
