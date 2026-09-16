@@ -1,22 +1,51 @@
-import { ringkasInventaris } from './utils.js';
+import { ringkasMobil } from './utils.js';
 
-const inventaris = [
-    { id: 1, nama: 'Router', kategori: 'Jaringan', jumlah: 4, kondisi: 'Baik' },
-    { id: 2, nama: 'Multimeter', kategori: 'Elektronika', jumlah: 6, kondisi: 'Baik' },
-    { id: 3, nama: 'Kabel UTP', kategori: 'Jaringan', jumlah: 20, kondisi: 'Perlu Cek' }
+const daftarMobil = [
+    { id: 1, nama: 'Toyota Avanza', kategori: 'MPV', jumlah: 5, kondisi: 'Baik', lokasi: 'Pool Pusat' },
+    { id: 2, nama: 'Honda Brio', kategori: 'City Car', jumlah: 3, kondisi: 'Baik', lokasi: 'Pool Bandara' },
+    { id: 3, nama: 'Mitsubishi Pajero', kategori: 'SUV', jumlah: 2, kondisi: 'Perlu Servis', lokasi: 'Pool Pusat' }
 ];
 
-const alatBaik = inventaris.filter(item => item.kondisi === 'Baik');
-const namaAlat = inventaris.map(({ nama }) => nama);
-const totalUnit = inventaris.reduce((total, item) => total + item.jumlah, 0);
+const mobilBaik = daftarMobil.filter(item => item.kondisi === 'Baik');
+const namaMobil = daftarMobil.map(({ nama }) => nama);
+const totalUnit = daftarMobil.reduce((total, item) => total + item.jumlah, 0);
 
-console.log('--- DAFTAR ALAT KONDISI BAIK ---');
-console.table(alatBaik);
+const mobilPoolPusat = daftarMobil.filter(item => item.lokasi === 'Pool Pusat');
+console.log('--- MOBIL DI POOL PUSAT ---');
+console.table(mobilPoolPusat);
 
-console.log('--- NAMA SEMUA ALAT ---');
-console.log(namaAlat);
+function cariMobilById(id) {
+    if (typeof id !== 'number') {
+        return 'ID harus berupa angka.';
+    }
+    const hasil = daftarMobil.find(item => item.id === id);
+    return hasil || `Mobil dengan ID ${id} tidak ditemukan.`;
+}
 
-console.log(`Total seluruh unit alat: ${totalUnit}`);
+console.log('--- CARI MOBIL (ID: 2) ---');
+console.log(cariMobilById(2));
 
-console.log('--- RINGKASAN STATISTIK INVENTARIS ---');
-console.log(ringkasInventaris(inventaris));
+console.log('--- UJI ID TIDAK DITEMUKAN (ID: 99) ---');
+console.log(cariMobilById(99));
+
+console.log('--- RINGKASAN SETIAP ITEM ---');
+const ringkasanItem = daftarMobil.map(({ nama, jumlah, lokasi, kondisi }) =>
+    `Mobil: ${nama} | Jumlah: ${jumlah} unit | Lokasi: ${lokasi} | Kondisi: ${kondisi}`
+);
+ringkasanItem.forEach(teks => console.log(teks));
+
+console.log('--- DAFTAR MOBIL KONDISI BAIK ---');
+console.table(mobilBaik);
+
+console.log('--- NAMA SEMUA MOBIL ---');
+console.log(namaMobil);
+
+console.log(`Total seluruh unit mobil: ${totalUnit}`);
+
+console.log('--- RINGKASAN STATISTIK MOBIL ---');
+try {
+    const statistik = ringkasMobil(daftarMobil);
+    console.log(statistik);
+} catch (error) {
+    console.error('Terjadi kesalahan:', error.message);
+}
