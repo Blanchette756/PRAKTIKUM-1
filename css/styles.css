@@ -68,6 +68,17 @@ button:focus-visible {
     gap: var(--space-2);
 }
 
+[data-theme="dark"] {
+    --surface: #121212;
+    --text: #e0e0e0;
+}
+
+body {
+    background-color: var(--surface);
+    color: var(--text);
+    transition: background-color 0.3s, color 0.3s;
+}
+
 @media (min-width: 48rem) {
     .hero {
         display: grid;

@@ -28,6 +28,28 @@
             <div class="hero-content">
                 <h2 class="hero-title">Selamat datang di WebLab</h2>
                 <p>Portal Layanan laboratorium Teknik Komputer.</p>
+                <section id="Mobil" style="margin-top: 2rem; padding: 1rem; border: 1px solid #ddd; border-radius: var(--radius);">
+                    <h2>Manajemen Pool Mobil</h2>
+                    <div class="controls" style="display: flex; flex-wrap: wrap; gap: 1rem; margin-bottom: 1rem; align-items: center;">
+                        <label for="search-input">Cari mobil</label>
+                        <input type="text" id="search-input" placeholder="Cari mobil...">
+                        <button id="theme-button" type="button" style="padding: 0.5rem; cursor: pointer;">Ganti Tema</button>
+                        <div>
+                            <button data-filter="Semua" style="padding: 0.5rem;">Semua</button>
+                            <button data-filter="Baik" style="padding: 0.5rem;">Baik</button>
+                            <button data-filter="Perlu Servis" style="padding: 0.5rem;">Perlu Servis</button>
+                        </div>
+                        <div>
+                            <label for="items-per-page">Tampilkan:</label>
+                            <select id="items-per-page" style="padding: 0.5rem;">
+                                <option value="5">5 item</option>
+                                <option value="10">10 item</option>
+                                <option value="20">20 item</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div id="daftar-alat" class="cards"></div>
+                </section>
             </div>
             <div class="hero-image">
                 <img src="img/jaringan.jpg" alt="Ilustrasi Laboratorium" style="width: 100%; height: auto;">
@@ -39,8 +61,10 @@
             <article>
                 <h3>Analisis Jaringan</h3>
                 <img src="img/jaringan.jpg" alt="Diagram Jaringan Komputer" style="width: 100%; height: auto;">
-                <p>Analisis jaringan adalah proses evaluasi dan penilaian terhadap kinerja jaringan komputer. Analisis ini bertujuan untuk memberikan wawasan kepada pengguna mengenai tren kinerja jaringan, potensi masalah, dan risiko yang terkait dengan
-                    penggunaan jaringan tersebut.</p>
+                <p>
+                    Analisis jaringan adalah proses evaluasi dan penilaian terhadap kinerja jaringan komputer. Analisis ini bertujuan untuk memberikan wawasan kepada pengguna mengenai tren kinerja jaringan, potensi masalah, dan risiko yang terkait dengan penggunaan jaringan
+                    tersebut.
+                </p>
             </article>
         </section>
 
