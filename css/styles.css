@@ -11,6 +11,31 @@
     box-sizing: border-box;
 }
 
+body {
+    margin: 0;
+    font-family: system-ui, sans-serif;
+    line-height: 1.6;
+    color: var(--text);
+    background: #f5f7fb;
+}
+
+header {
+    background: #0f172a;
+    color: white;
+    padding: 1.2rem 1.5rem 0.8rem;
+}
+
+header a {
+    color: #9ad9ff;
+    text-decoration: none;
+}
+
+header h1 {
+    margin: 0.8rem 0 0.5rem;
+    font-size: clamp(2rem, 4vw, 3rem);
+    color: white;
+}
+
 .nav-list {
     display: flex;
     flex-wrap: wrap;
@@ -20,22 +45,39 @@
     margin: 0;
 }
 
+.nav-list a {
+    color: white;
+    text-decoration: none;
+}
+
+main {
+    padding: 0 1.5rem 2rem;
+}
+
+.project-note {
+    margin: 1rem 0 1.5rem;
+    border-left: 4px solid #2563eb;
+    background: #eff6ff;
+    color: #1f2937;
+    padding: 0.75rem 1rem;
+    border-radius: 0.5rem;
+}
+
+.project-note p {
+    margin: 0;
+    font-weight: 600;
+}
+
 .hero {
     width: 100%;
     padding: 2rem;
     border-bottom: 2px solid #ddd;
+    background: white;
 }
 
 .hero-title {
     font-size: clamp(1.5rem, 5vw, 3rem);
     margin-top: 0;
-}
-
-body {
-    margin: 0;
-    font-family: system-ui, sans-serif;
-    line-height: 1.6;
-    color: var(--text);
 }
 
 nav {
@@ -54,12 +96,90 @@ nav {
     padding: 1rem;
     border: 1px solid #ddd;
     border-radius: var(--radius);
+    background: white;
 }
 
-a:focus-visible,
-button:focus-visible {
-    outline: 3px solid #111;
-    outline-offset: 3px;
+.hero-image img,
+.card img {
+    width: 100%;
+    height: auto;
+    display: block;
+    border-radius: 0.5rem;
+}
+
+.fleet-panel {
+    margin-top: 2rem;
+    padding: 1rem;
+    border: 1px solid #ddd;
+    border-radius: var(--radius);
+    background: #f8fafc;
+}
+
+.controls {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-bottom: 1rem;
+    align-items: center;
+}
+
+.controls label,
+.form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+    color: var(--text);
+}
+
+.controls input,
+.controls select,
+.form-group input,
+.form-group select,
+.form-group textarea {
+    width: 100%;
+    padding: 12px 16px;
+    border: 1px solid #ccc;
+    border-radius: var(--radius);
+    background-color: var(--surface);
+    color: var(--text);
+    font-size: 14px;
+    font-family: inherit;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    box-sizing: border-box;
+}
+
+.controls input:focus,
+.controls select:focus,
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+    outline: none;
+    border-color: var(--brand);
+    box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.2);
+}
+
+button {
+    padding: 0.7rem 0.9rem;
+    cursor: pointer;
+    border: none;
+    border-radius: 0.5rem;
+}
+
+button[type="submit"] {
+    width: 100%;
+    background-color: var(--brand);
+    color: white;
+    font-weight: 600;
+}
+
+button[data-filter] {
+    background: #eef2ff;
+    color: var(--text);
+}
+
+#theme-button {
+    background: #111827;
+    color: white;
 }
 
 .grid-3-kolom {
@@ -68,15 +188,76 @@ button:focus-visible {
     gap: var(--space-2);
 }
 
+.decor-box {
+    width: 100%;
+    height: 160px;
+    background: #ccc;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 10px;
+    border-radius: 0.5rem;
+}
+
+.form-group {
+    margin-bottom: 1.5rem;
+    display: block;
+    width: 100%;
+}
+
+.checkbox-group label {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-weight: normal;
+    cursor: pointer;
+}
+
+.checkbox-group input[type="checkbox"] {
+    width: auto;
+    cursor: pointer;
+}
+
+.error-text {
+    color: #dc2626;
+    font-size: 0.85rem;
+    display: block;
+    margin-top: 0.4rem;
+    min-height: 1.2rem;
+}
+
+.input-error {
+    border-color: #dc2626 !important;
+    background-color: #fef2f2 !important;
+}
+
+.input-valid {
+    border-color: #10b981 !important;
+    background-color: #ecfdf5 !important;
+}
+
 [data-theme="dark"] {
     --surface: #121212;
     --text: #e0e0e0;
 }
 
-body {
-    background-color: var(--surface);
-    color: var(--text);
-    transition: background-color 0.3s, color 0.3s;
+[data-theme="dark"] .form-group input,
+[data-theme="dark"] .form-group select,
+[data-theme="dark"] .form-group textarea {
+    border-color: #444;
+    background-color: #1a1a1a;
+    color: #e0e0e0;
+}
+
+[data-theme="dark"] .input-error {
+    border-color: #ef4444 !important;
+    background-color: #450a0a !important;
+}
+
+@media (max-width: 920px) {
+    .hero {
+        display: block;
+    }
 }
 
 @media (min-width: 48rem) {
@@ -85,8 +266,7 @@ body {
         grid-template-columns: 1.3fr 1fr;
         gap: 2rem;
     }
-}
-
-.grid-3-kolom {
-    grid-template-columns: repeat(3, 1fr);
+    .grid-3-kolom {
+        grid-template-columns: repeat(3, 1fr);
+    }
 }

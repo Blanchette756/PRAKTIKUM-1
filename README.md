@@ -8,12 +8,12 @@
 *   **Mata Kuliah:** Praktikum Pemrograman Web
 
 ## Deskripsi Proyek
-Repositori ini merupakan inisialisasi proyek awal untuk Praktikum Pemrograman Web berbasis Outcome-Based Education (OBE). Pada iterasi saat ini (Modul 02), pengembangan difokuskan pada implementasi struktur HTML5 semantik dan penerapan standar aksesibilitas web dasar untuk membangun antarmuka sistem pengelolaan jaringan komputer. 
+Repositori ini merupakan proyek Praktikum Pemrograman Web berbasis Outcome-Based Education (OBE). Proyek ini mengembangkan antarmuka sistem pengelolaan pool mobil dengan struktur HTML5 semantik dan standar aksesibilitas web dasar.
 
 ## Fitur yang Telah Diselesaikan
 *   Penyusunan elemen semantik HTML5 (`<header>`, `<nav>`, `<main>`, `<section>`, `<article>`, `<footer>`).
 *   Penerapan hierarki judul (*heading hierarchy*) yang logis.
-*   Pembuatan formulir pelaporan aksesibel dengan integrasi atribut `<label>` dan `<input>`.
+*   Pembuatan formulir kontak dan pelaporan kendala kendaraan dengan integrasi atribut `<label>` dan `<input>`.
 *   Penerapan teks alternatif (`alt`) pada gambar dan tautan pintasan (*skip link*) untuk navigasi papan ketik.
 *   Penerapan manajemen kontrol versi (*branching*, *commit*, dan *merging*) menggunakan Git.
 
