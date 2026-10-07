@@ -35,7 +35,7 @@ Untuk menjalankan proyek ini pada lingkungan pengembangan lokal, silakan ikuti p
 ## URL Lokal
 *   `http://localhost/pemweb-obe/`
 
-## Dokumentasi Endpoint API (Milestone Pertemuan 7)
+## Dokumentasi Endpoint API 
 
 Tabel spesifikasi endpoint REST API/JSON yang digunakan pada sistem Manajemen Mobil:
 
