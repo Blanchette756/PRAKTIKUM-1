@@ -47,6 +47,154 @@ const tombolFilter = document.querySelectorAll('[data-filter]');
 const searchInput = document.querySelector('#search-input');
 const itemsPerPageSelect = document.querySelector('#items-per-page');
 const themeButton = document.querySelector('#theme-button');
+const form = document.getElementById('laporanForm');
+const errorSummary = document.getElementById('formErrorSummary');
+
+const fields = {
+    nama: document.getElementById('nama'),
+    email: document.getElementById('email'),
+    kategori: document.getElementById('kategori'),
+    tanggal: document.getElementById('tanggal'),
+    detail: document.getElementById('detail'),
+    setuju: document.getElementById('setuju')
+};
+
+const rules = {
+    nama: value => value.trim().length >= 5 ? '' : 'Nama minimal 5 karakter.',
+    email: value => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value.trim()) ? '' : 'Email harus valid.',
+    kategori: value => value ? '' : 'Kategori kendaraan harus dipilih.',
+    tanggal: value => value ? '' : 'Tanggal laporan wajib diisi.',
+    detail: value => value.trim().length >= 10 ? '' : 'Detail kendala minimal 10 karakter.',
+    setuju: value => value ? '' : 'Anda harus menyetujui data laporan.'
+};
+
+function getFieldValue(name, field) {
+    if (name === 'setuju') {
+        return field.checked;
+    }
+
+    return field.value;
+}
+
+function clearFieldError(name) {
+    const field = fields[name];
+    const errorText = document.getElementById(`${name}Error`);
+
+    if (field) {
+        field.classList.remove('input-error');
+        field.classList.add('input-valid');
+    }
+
+    if (errorText) {
+        errorText.textContent = '';
+    }
+}
+
+function setFieldError(name, message) {
+    const field = fields[name];
+    const errorText = document.getElementById(`${name}Error`);
+
+    if (field) {
+        field.classList.remove('input-valid');
+        field.classList.add('input-error');
+    }
+
+    if (errorText) {
+        errorText.textContent = message;
+    }
+}
+
+function validateField(name) {
+    const field = fields[name];
+    const value = getFieldValue(name, field);
+    const message = rules[name](value);
+
+    if (message) {
+        setFieldError(name, message);
+        return false;
+    }
+
+    clearFieldError(name);
+    return true;
+}
+
+function renderErrorSummary(errors) {
+    if (!errorSummary) {
+        return;
+    }
+
+    if (!errors.length) {
+        errorSummary.hidden = true;
+        errorSummary.innerHTML = '';
+        return;
+    }
+
+    errorSummary.hidden = false;
+    errorSummary.innerHTML = `<ul>${errors.map(error => `<li>${error}</li>`).join('')}</ul>`;
+}
+
+function validateForm() {
+    const errorMessages = [];
+
+    Object.keys(fields).forEach(name => {
+        const field = fields[name];
+        const value = getFieldValue(name, field);
+        const message = rules[name](value);
+
+        if (message) {
+            setFieldError(name, message);
+            errorMessages.push(message);
+        } else {
+            clearFieldError(name);
+        }
+    });
+
+    renderErrorSummary(errorMessages);
+    return errorMessages.length === 0;
+}
+
+if (form) {
+    Object.keys(fields).forEach(name => {
+        const field = fields[name];
+        const eventName = name === 'setuju' ? 'change' : 'input';
+
+        field.addEventListener(eventName, () => {
+            validateField(name);
+            if (errorSummary && !errorSummary.hidden) {
+                const currentErrors = [];
+                Object.keys(fields).forEach(fieldName => {
+                    const fieldValue = getFieldValue(fieldName, fields[fieldName]);
+                    const message = rules[fieldName](fieldValue);
+                    if (message) {
+                        currentErrors.push(message);
+                    }
+                });
+                renderErrorSummary(currentErrors);
+            }
+        });
+    });
+
+    form.addEventListener('submit', (event) => {
+        event.preventDefault();
+
+        const isValid = validateForm();
+
+        if (!isValid) {
+            const order = ['nama', 'email', 'kategori', 'tanggal', 'detail', 'setuju'];
+            const firstInvalid = order.find(name => !validateField(name));
+
+            if (firstInvalid && fields[firstInvalid]) {
+                fields[firstInvalid].focus();
+            }
+            return;
+        }
+
+        renderErrorSummary([]);
+        alert('Laporan kendaraan berhasil dikirim.');
+        form.reset();
+        Object.keys(fields).forEach(name => clearFieldError(name));
+    });
+}
 
 let currentFilter = 'Semua';
 let searchQuery = '';

@@ -1,0 +1,66 @@
+[
+  {
+    "id": 1,
+    "nama": "Toyota Avanza 1.3 G",
+    "kategori": "MPV",
+    "jumlah": 4,
+    "kondisi": "Baik",
+    "lokasi": "Pool Pusat"
+  },
+  {
+    "id": 2,
+    "nama": "Honda Brio Satya E",
+    "kategori": "City Car",
+    "jumlah": 3,
+    "kondisi": "Baik",
+    "lokasi": "Pool Bandara"
+  },
+  {
+    "id": 3,
+    "nama": "Mitsubishi Pajero Sport Dakar",
+    "kategori": "SUV",
+    "jumlah": 2,
+    "kondisi": "Perlu Servis",
+    "lokasi": "Pool Pusat"
+  },
+  {
+    "id": 4,
+    "nama": "Toyota Kijang Innova Reborn",
+    "kategori": "MPV",
+    "jumlah": 5,
+    "kondisi": "Baik",
+    "lokasi": "Pool Pelabuhan"
+  },
+  {
+    "id": 5,
+    "nama": "Toyota HiAce Commuter",
+    "kategori": "Minibus",
+    "jumlah": 2,
+    "kondisi": "Baik",
+    "lokasi": "Pool Bandara"
+  },
+  {
+    "id": 6,
+    "nama": "Daihatsu Gran Max Blind Van",
+    "kategori": "Operasional",
+    "jumlah": 3,
+    "kondisi": "Perlu Servis",
+    "lokasi": "Pool Pusat"
+  },
+  {
+    "id": 7,
+    "nama": "Toyota Fortuner 2.8 VRZ",
+    "kategori": "SUV",
+    "jumlah": 1,
+    "kondisi": "Baik",
+    "lokasi": "Pool Pusat"
+  },
+  {
+    "id": 8,
+    "nama": "Suzuki Ertiga Hybrid",
+    "kategori": "MPV",
+    "jumlah": 4,
+    "kondisi": "Baik",
+    "lokasi": "Pool Pelabuhan"
+  }
+]

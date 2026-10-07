@@ -218,6 +218,20 @@ button[data-filter] {
     cursor: pointer;
 }
 
+.error-summary {
+    background: #fff1f2;
+    color: #991b1b;
+    border: 1px solid #fecdd3;
+    border-radius: 0.5rem;
+    padding: 0.75rem 1rem;
+    margin-bottom: 1rem;
+}
+
+.error-summary ul {
+    margin: 0;
+    padding-left: 1.2rem;
+}
+
 .error-text {
     color: #dc2626;
     font-size: 0.85rem;
