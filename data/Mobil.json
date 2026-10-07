@@ -5,7 +5,7 @@
     "kategori": "MPV",
     "jumlah": 4,
     "kondisi": "Baik",
-    "lokasi": "Pool Pusat"
+    "lokasi": "Kantor Pusat"
   },
   {
     "id": 2,
@@ -13,7 +13,7 @@
     "kategori": "City Car",
     "jumlah": 3,
     "kondisi": "Baik",
-    "lokasi": "Pool Bandara"
+    "lokasi": "Bandara"
   },
   {
     "id": 3,
@@ -21,7 +21,7 @@
     "kategori": "SUV",
     "jumlah": 2,
     "kondisi": "Perlu Servis",
-    "lokasi": "Pool Pusat"
+    "lokasi": "Kantor Pusat"
   },
   {
     "id": 4,
@@ -29,7 +29,7 @@
     "kategori": "MPV",
     "jumlah": 5,
     "kondisi": "Baik",
-    "lokasi": "Pool Pelabuhan"
+    "lokasi": "Pelabuhan"
   },
   {
     "id": 5,
@@ -37,7 +37,7 @@
     "kategori": "Minibus",
     "jumlah": 2,
     "kondisi": "Baik",
-    "lokasi": "Pool Bandara"
+    "lokasi": "Bandara"
   },
   {
     "id": 6,
@@ -45,7 +45,7 @@
     "kategori": "Operasional",
     "jumlah": 3,
     "kondisi": "Perlu Servis",
-    "lokasi": "Pool Pusat"
+    "lokasi": "Kantor Pusat"
   },
   {
     "id": 7,
@@ -53,7 +53,7 @@
     "kategori": "SUV",
     "jumlah": 1,
     "kondisi": "Baik",
-    "lokasi": "Pool Pusat"
+    "lokasi": "Kantor Pusat"
   },
   {
     "id": 8,
@@ -61,6 +61,6 @@
     "kategori": "MPV",
     "jumlah": 4,
     "kondisi": "Baik",
-    "lokasi": "Pool Pelabuhan"
+    "lokasi": "Pelabuhan"
   }
 ]

@@ -3,17 +3,18 @@
 
 <head>
     <link rel="stylesheet" href="css/styles.css">
-    <script type="module" src="js/app.js"></script>
+    <script type="module" src="js/app.js?v=2"></script>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="Aplikasi pengelolaan pool mobil untuk melihat kategori, jumlah, lokasi, dan kondisi kendaraan.">
-    <title>Manajemen Pool Mobil</title>
+    <meta name="description"
+        content="Aplikasi pengelolaan daftar mobil untuk melihat kategori, jumlah, lokasi, dan kondisi kendaraan.">
+    <title>Manajemen daftar Mobil</title>
 </head>
 
 <body>
     <header>
         <a href="#main">Lewati ke konten utama</a>
-        <h1>Manajemen Pool Mobil</h1>
+        <h1>Manajemen daftar Mobil</h1>
         <nav>
             <ul class="nav-list">
                 <li><a href="#layanan">Daftar Mobil</a></li>
@@ -25,15 +26,15 @@
 
     <main id="main">
         <section class="project-note">
-            <p>Form laporan kendaraan ini dibuat sesuai dengan kebutuhan proyek manajemen pool mobil.</p>
+            <p>Form laporan kendaraan ini dibuat sesuai dengan kebutuhan proyek manajemen daftar mobil.</p>
         </section>
 
         <section id="layanan" class="hero">
             <div class="hero-content">
-                <h2 class="hero-title">Manajemen Pool Mobil</h2>
+                <h2 class="hero-title">Manajemen daftar Mobil</h2>
                 <p>Pantau kategori, jumlah unit, dan kondisi kendaraan.</p>
                 <section id="Mobil" class="fleet-panel">
-                    <h2>Manajemen Pool Mobil</h2>
+                    <h2>Manajemen daftar Mobil</h2>
                     <div class="controls">
                         <label for="search-input">Cari mobil</label>
                         <input type="text" id="search-input" placeholder="Cari mobil...">
@@ -56,7 +57,7 @@
                 </section>
             </div>
             <div class="hero-image">
-                <img src="img/Mobil_4.jpg" alt="Mobil yang tersedia di pool kendaraan">
+                <img src="img/Mobil_4.jpg" alt="Mobil yang tersedia di daftar kendaraan">
             </div>
         </section>
 
@@ -64,9 +65,10 @@
             <h2>Informasi Kendaraan</h2>
             <article>
                 <h3>Inventaris Kendaraan</h3>
-                <img src="img/mobil_2.jpg" alt="Kendaraan yang tercatat dalam inventaris pool mobil">
+                <img src="img/mobil_2.jpg" alt="Kendaraan yang tercatat dalam inventaris daftar mobil">
                 <p>
-                    Informasi Kendaraan memuat kategori, jumlah unit, kondisi, dan lokasi kendaraan. Gunakan pencarian dan filter kondisi untuk menemukan mobil yang sesuai.
+                    Informasi Kendaraan memuat kategori, jumlah unit, kondisi, dan lokasi kendaraan. Gunakan pencarian
+                    dan filter kondisi untuk menemukan mobil yang sesuai.
                 </p>
             </article>
         </section>
@@ -100,13 +102,15 @@
             <form id="laporanForm" novalidate>
                 <div class="form-group">
                     <label for="nama">Nama Pelapor *</label>
-                    <input type="text" id="nama" name="nama" required aria-describedby="namaError" placeholder="Masukkan nama Anda">
+                    <input type="text" id="nama" name="nama" required aria-describedby="namaError"
+                        placeholder="Masukkan nama Anda">
                     <small id="namaError" class="error-text" aria-live="polite"></small>
                 </div>
 
                 <div class="form-group">
                     <label for="email">Email Kontak *</label>
-                    <input id="email" name="email" type="email" required aria-describedby="emailError" placeholder="Masukkan alamat email Anda">
+                    <input id="email" name="email" type="email" required aria-describedby="emailError"
+                        placeholder="Masukkan alamat email Anda">
                     <small id="emailError" class="error-text" aria-live="polite"></small>
                 </div>
 
@@ -148,7 +152,7 @@
         </section>
 
         <footer>
-            <p>&copy; 2026 Manajemen Pool Mobil</p>
+            <p>&copy; 2026 Manajemen daftar Mobil</p>
         </footer>
     </main>
 </body>
