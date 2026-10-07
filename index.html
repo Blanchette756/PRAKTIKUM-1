@@ -2,8 +2,8 @@
 <html lang="id">
 
 <head>
-    <link rel="stylesheet" href="css/styles.css">
-    <script type="module" src="js/app.js?v=2"></script>
+    <link rel="stylesheet" href="css/styles.css?v=2">
+    <script type="module" src="js/app.js?v=3"></script>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description"
@@ -25,10 +25,6 @@
     </header>
 
     <main id="main">
-        <section class="project-note">
-            <p>Form laporan kendaraan ini dibuat sesuai dengan kebutuhan proyek manajemen daftar mobil.</p>
-        </section>
-
         <section id="layanan" class="hero">
             <div class="hero-content">
                 <h2 class="hero-title">Manajemen daftar Mobil</h2>
@@ -52,6 +48,13 @@
                                 <option value="20">20 item</option>
                             </select>
                         </div>
+                    </div>
+                    <div id="status-loading" class="status-box loading-box" role="status" hidden>
+                        <p>Memuat data kendaraan...</p>
+                    </div>
+                    <div id="status-error" class="status-box error-box" role="alert" hidden>
+                        <p id="error-message">Data kendaraan belum dapat dimuat.</p>
+                        <button id="btn-retry" type="button" class="btn-retry">Coba Lagi</button>
                     </div>
                     <div id="daftar-alat" class="cards"></div>
                 </section>

@@ -34,3 +34,50 @@ Untuk menjalankan proyek ini pada lingkungan pengembangan lokal, silakan ikuti p
 
 ## URL Lokal
 *   `http://localhost/pemweb-obe/`
+
+## Dokumentasi Endpoint API (Milestone Pertemuan 7)
+
+Tabel spesifikasi endpoint REST API/JSON yang digunakan pada sistem Manajemen Mobil:
+
+| Komponen | Penjelasan Teknis |
+| :--- | :--- |
+| **Nama Endpoint** | Endpoint Data Kendaraan |
+| **Method** | GET |
+| **URL / Lintasan** | `./data/Mobil.json` (Akses server: `http://localhost/pemweb-obe/data/Mobil.json`) |
+| **Tujuan / Fungsi** | Mengambil seluruh daftar unit kendaraan untuk dirender ke dalam antarmuka dashboard |
+| **Parameter Query / Body** | Tidak ada (Static JSON Resource) |
+| **Header Request** | `Accept: application/json` |
+| **Status Berhasil** | `200 OK` (mengembalikan Array of Objects kendaraan) |
+| **Status Galat** | `404 Not Found` (berkas tidak ada) / `500 Internal Server Error` |
+| **Respon Galat UI** | Menampilkan elemen pesan galat ramah pengguna disertai tombol *Coba Lagi* (*retry*) |
+
+### Contoh Request Fetch Asinkron
+```javascript
+const response = await fetch('./data/Mobil.json');
+if (!response.ok) {
+    throw new Error(`HTTP ${response.status}: Gagal memuat data kendaraan`);
+}
+const data = await response.json();
+```
+
+### Contoh Potongan Respon JSON (200 OK)
+```json
+[
+  {
+    "id": 1,
+    "nama": "Toyota Avanza 1.3 G",
+    "kategori": "MPV",
+    "jumlah": 4,
+    "kondisi": "Baik",
+    "lokasi": "Kantor Pusat"
+  },
+  {
+    "id": 2,
+    "nama": "Honda Brio Satya E",
+    "kategori": "City Car",
+    "jumlah": 3,
+    "kondisi": "Baik",
+    "lokasi": "Bandara"
+  }
+]
+```

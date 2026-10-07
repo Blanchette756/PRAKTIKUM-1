@@ -1,9 +1,10 @@
 import { ringkasMobil } from './utils.js';
 
 let daftarMobil = [];
+const ENDPOINT_MOBIL = './data/Mobil.json';
 
 async function fetchMobil() {
-    const response = await fetch('./data/Mobil.json');
+    const response = await fetch(ENDPOINT_MOBIL);
     if (!response.ok) {
         throw new Error(`HTTP ${response.status}: Gagal memuat data kendaraan`);
     }
@@ -23,6 +24,10 @@ const tombolFilter = document.querySelectorAll('[data-filter]');
 const searchInput = document.querySelector('#search-input');
 const itemsPerPageSelect = document.querySelector('#items-per-page');
 const themeButton = document.querySelector('#theme-button');
+const statusLoading = document.getElementById('status-loading');
+const statusError = document.getElementById('status-error');
+const errorMessage = document.getElementById('error-message');
+const btnRetry = document.getElementById('btn-retry');
 const form = document.getElementById('laporanForm');
 const errorSummary = document.getElementById('formErrorSummary');
 
@@ -260,6 +265,10 @@ themeButton.addEventListener('click', () => {
 });
 
 async function initDashboard() {
+    daftar.replaceChildren();
+    if (statusLoading) statusLoading.hidden = false;
+    if (statusError) statusError.hidden = true;
+
     try {
         daftarMobil = await fetchMobil();
         renderItems();
@@ -269,7 +278,21 @@ async function initDashboard() {
         console.log(statistik);
     } catch (error) {
         console.error('Terjadi kesalahan:', error.message);
+        if (statusError) {
+            statusError.hidden = false;
+            if (errorMessage) {
+                errorMessage.textContent = 'Data kendaraan belum dapat dimuat. Silakan periksa koneksi atau coba lagi.';
+            }
+        }
+    } finally {
+        if (statusLoading) statusLoading.hidden = true;
     }
+}
+
+if (btnRetry) {
+    btnRetry.addEventListener('click', () => {
+        initDashboard();
+    });
 }
 
 initDashboard();
