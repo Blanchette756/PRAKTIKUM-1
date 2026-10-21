@@ -56,8 +56,11 @@ if ($method === 'POST') {
 
     $errors = [];
 
-    if (empty($data['nama']) || strlen(trim($data['nama'])) < 3) {
+    $nama = trim((string)($data['nama'] ?? ''));
+    if ($nama === '' || strlen($nama) < 3) {
         $errors['nama'] = 'Nama unit mobil wajib diisi dan minimal 3 karakter.';
+    } elseif (strlen($nama) > 100) {
+        $errors['nama'] = 'Nama unit mobil maksimal 100 karakter.';
     }
 
     if (empty($data['kategori'])) {
