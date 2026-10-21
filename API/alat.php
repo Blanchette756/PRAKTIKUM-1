@@ -1,7 +1,10 @@
 <?php
-header('Content-Type: application/json; charset=utf-8');
+declare(strict_types=1);
 
-$method = $_SERVER['REQUEST_METHOD'];
+require_once __DIR__ . '/middleware.php';
+jsonMiddleware();
+
+$method = $_SERVER['REQUEST_METHOD'] ?? 'GET';
 
 if ($method === 'GET') {
     http_response_code(200);
