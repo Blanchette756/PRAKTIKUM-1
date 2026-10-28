@@ -1,38 +1,26 @@
 <?php
 header('Content-Type: application/json; charset=utf-8');
 
+require_once dirname(__DIR__) . '/config/database.php';
+
 $method = $_SERVER['REQUEST_METHOD'];
 
 if ($method === 'GET') {
+    $kategori = $_GET['kategori'] ?? null;
+
+    if ($kategori) {
+        $stmt = db()->prepare('SELECT * FROM alat WHERE kategori = :kategori ORDER BY id DESC');
+        $stmt->execute(['kategori' => $kategori]);
+    } else {
+        $stmt = db()->query('SELECT * FROM alat ORDER BY id DESC');
+    }
+
+    $data = $stmt->fetchAll();
+
     http_response_code(200);
     echo json_encode([
         'status' => 'success',
-        'data' => [
-            [
-                'id' => 1,
-                'nama' => 'Toyota Avanza 1.3 G',
-                'kategori' => 'MPV',
-                'jumlah' => 4,
-                'kondisi' => 'Baik',
-                'lokasi' => 'Kantor Pusat'
-            ],
-            [
-                'id' => 2,
-                'nama' => 'Honda Brio Satya E',
-                'kategori' => 'City Car',
-                'jumlah' => 3,
-                'kondisi' => 'Baik',
-                'lokasi' => 'Bandara'
-            ],
-            [
-                'id' => 3,
-                'nama' => 'Mitsubishi Pajero Sport Dakar',
-                'kategori' => 'SUV',
-                'jumlah' => 2,
-                'kondisi' => 'Perlu Servis',
-                'lokasi' => 'Kantor Pusat'
-            ]
-        ]
+        'data' => $data
     ]);
     exit();
 }
@@ -69,10 +57,6 @@ if ($method === 'POST') {
         $errors['kondisi'] = 'Kondisi kendaraan wajib diisi.';
     }
 
-    if (empty($data['lokasi'])) {
-        $errors['lokasi'] = 'Lokasi pool wajib diisi.';
-    }
-
     if (!empty($errors)) {
         http_response_code(422);
         echo json_encode([
@@ -84,18 +68,27 @@ if ($method === 'POST') {
         exit();
     }
 
+    $stmt = db()->prepare('INSERT INTO alat (nama, kategori, jumlah, kondisi) VALUES (:nama, :kategori, :jumlah, :kondisi)');
+    $stmt->execute([
+        'nama' => trim($data['nama']),
+        'kategori' => trim($data['kategori']),
+        'jumlah' => (int)$data['jumlah'],
+        'kondisi' => trim($data['kondisi'])
+    ]);
+
+    $newId = (int)db()->lastInsertId();
+
     http_response_code(201);
     echo json_encode([
         'status' => 'success',
         'code' => 201,
-        'message' => 'Data unit mobil berhasil ditambahkan',
+        'message' => 'Data unit mobil berhasil ditambahkan ke basis data',
         'data' => [
-            'id' => random_int(10, 999),
+            'id' => $newId,
             'nama' => trim($data['nama']),
             'kategori' => trim($data['kategori']),
             'jumlah' => (int)$data['jumlah'],
-            'kondisi' => trim($data['kondisi']),
-            'lokasi' => trim($data['lokasi'])
+            'kondisi' => trim($data['kondisi'])
         ]
     ]);
     exit();
