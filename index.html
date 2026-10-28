@@ -15,7 +15,7 @@
     <header>
         <a href="#main">Lewati ke konten utama</a>
         <h1>Manajemen daftar Mobil</h1>
-        <nav>
+        <nav aria-label="Navigasi Utama">
             <ul class="nav-list">
                 <li><a href="#layanan">Daftar Mobil</a></li>
                 <li><a href="#artikel">Informasi Kendaraan</a></li>
@@ -26,49 +26,65 @@
 
     <main id="main">
         <section id="layanan" class="hero">
-            <div class="hero-content">
-                <h2 class="hero-title">Manajemen daftar Mobil</h2>
-                <p>Pantau kategori, jumlah unit, dan kondisi kendaraan.</p>
+            <article class="hero-content">
+                <header>
+                    <h2 class="hero-title">Manajemen daftar Mobil</h2>
+                    <p>Pantau kategori, jumlah unit, dan kondisi kendaraan.</p>
+                </header>
+
                 <section id="Mobil" class="fleet-panel">
-                    <h2>Manajemen daftar Mobil</h2>
-                    <div class="controls">
+                    <h3>Panel Inventaris Mobil</h3>
+                    <h4>Pencarian dan Penyaringan Armada</h4>
+
+                    <section class="controls" aria-label="Kontrol pencarian dan filter">
                         <label for="search-input">Cari mobil</label>
                         <input type="text" id="search-input" placeholder="Cari mobil...">
                         <button id="theme-button" type="button">Ganti Tema</button>
-                        <div>
+
+                        <p class="filter-actions" style="margin: 0; display: flex; gap: 0.5rem; flex-wrap: wrap;">
                             <button data-filter="Semua">Semua</button>
                             <button data-filter="Baik">Baik</button>
                             <button data-filter="Perlu Servis">Perlu Servis</button>
-                        </div>
-                        <div>
+                        </p>
+
+                        <p class="pagination-wrapper" style="margin: 0;">
                             <label for="items-per-page">Tampilkan:</label>
                             <select id="items-per-page">
                                 <option value="5">5 item</option>
                                 <option value="10">10 item</option>
                                 <option value="20">20 item</option>
                             </select>
-                        </div>
-                    </div>
-                    <div id="status-loading" class="status-box loading-box" role="status" hidden>
+                        </p>
+                    </section>
+
+                    <aside id="status-loading" class="status-box loading-box" role="status" hidden>
                         <p>Memuat data kendaraan...</p>
-                    </div>
-                    <div id="status-error" class="status-box error-box" role="alert" hidden>
+                    </aside>
+
+                    <aside id="status-error" class="status-box error-box" role="alert" hidden>
                         <p id="error-message">Data kendaraan belum dapat dimuat.</p>
                         <button id="btn-retry" type="button" class="btn-retry">Coba Lagi</button>
-                    </div>
-                    <div id="daftar-alat" class="cards"></div>
+                    </aside>
+
+                    <section id="daftar-alat" class="cards" aria-label="Daftar unit kendaraan"></section>
                 </section>
-            </div>
-            <div class="hero-image">
+            </article>
+
+            <figure class="hero-image" style="margin: 0;">
                 <img src="img/Mobil_4.jpg" alt="Mobil yang tersedia di daftar kendaraan">
-            </div>
+            </figure>
         </section>
 
         <section id="artikel">
             <h2>Informasi Kendaraan</h2>
             <article>
-                <h3>Inventaris Kendaraan</h3>
-                <img src="img/mobil_2.jpg" alt="Kendaraan yang tercatat dalam inventaris daftar mobil">
+                <header>
+                    <h3>Inventaris Kendaraan</h3>
+                    <h4>Standar Kelaikan Operasional</h4>
+                </header>
+                <figure style="margin: 0 0 1rem 0;">
+                    <img src="img/mobil_2.jpg" alt="Kendaraan yang tercatat dalam inventaris daftar mobil">
+                </figure>
                 <p>
                     Informasi Kendaraan memuat kategori, jumlah unit, kondisi, dan lokasi kendaraan. Gunakan pencarian
                     dan filter kondisi untuk menemukan mobil yang sesuai.
@@ -78,46 +94,65 @@
 
         <section id="alt">
             <h2>Galeri Kendaraan</h2>
-            <div class="grid-3-kolom">
+            <section class="grid-3-kolom">
                 <article class="card">
-                    <h3>Foto Kendaraan</h3>
-                    <img src="img/Mobil_1.jpg" alt="Mobil yang menjadi bagian dari Kendaraan">
-                    <img src="img/Mobil_2.jpg" alt="Pilihan kendaraan dalam inventaris mobil">
+                    <header>
+                        <h3>Foto Kendaraan</h3>
+                        <h4>Dokumentasi Visual Lapangan</h4>
+                    </header>
+                    <figure style="margin: 0; display: flex; flex-direction: column; gap: 0.5rem;">
+                        <img src="img/Mobil_1.jpg" alt="Mobil yang menjadi bagian dari Kendaraan">
+                        <img src="img/Mobil_2.jpg" alt="Pilihan kendaraan dalam inventaris mobil">
+                    </figure>
                 </article>
 
                 <article class="card">
-                    <h3>Area Foto Dekoratif</h3>
-                    <div class="decor-box">Area gambar dekoratif</div>
+                    <header>
+                        <h3>Area Foto Dekoratif</h3>
+                        <h4>Pratinjau Estetika Unit</h4>
+                    </header>
+                    <figure class="decor-box" style="margin: 0 0 10px 0;">Area gambar dekoratif</figure>
                 </article>
 
                 <article class="card">
-                    <h3>Foto Mobil sebagai Tautan</h3>
-                    <a href="img/Mobil_3.jpg" target="_blank">
-                        <img src="img/Mobil_3.jpg" alt="Buka foto kendaraan ukuran penuh">
-                    </a>
+                    <header>
+                        <h3>Foto Mobil sebagai Tautan</h3>
+                        <h4>Akses Berkas Resolusi Penuh</h4>
+                    </header>
+                    <figure style="margin: 0;">
+                        <a href="img/Mobil_3.jpg" target="_blank">
+                            <img src="img/Mobil_3.jpg" alt="Buka foto kendaraan ukuran penuh">
+                        </a>
+                    </figure>
                 </article>
-            </div>
+            </section>
         </section>
 
         <section id="kontak">
-            <h2>Form Laporan Kendaraan</h2>
-            <div id="formErrorSummary" class="error-summary" aria-live="polite" hidden></div>
+            <header>
+                <h2>Form Laporan Kendaraan</h2>
+                <h3>Detail Pelaporan Unit</h3>
+                <h4>Ketentuan Data dan Validasi</h4>
+            </header>
+
+            <output id="formErrorSummary" class="error-summary" aria-live="polite" hidden></output>
+
             <form id="laporanForm" novalidate>
-                <div class="form-group">
+                <p class="form-group">
                     <label for="nama">Nama Pelapor *</label>
                     <input type="text" id="nama" name="nama" required aria-describedby="namaError"
                         placeholder="Masukkan nama Anda">
                     <small id="namaError" class="error-text" aria-live="polite"></small>
-                </div>
+                </p>
 
-                <div class="form-group">
+                <p class="form-group">
                     <label for="email">Email Kontak *</label>
                     <input id="email" name="email" type="email" required aria-describedby="emailError"
                         placeholder="Masukkan alamat email Anda">
                     <small id="emailError" class="error-text" aria-live="polite"></small>
-                </div>
+                </p>
 
-                <div class="form-group">
+                <p class="form-group">
                     <label for="kategori">Kategori Kendaraan *</label>
                     <select id="kategori" name="kategori" required aria-describedby="kategoriError">
                         <option value="">-- Pilih Kategori --</option>
@@ -126,38 +161,40 @@
                         <option value="SUV">SUV</option>
                     </select>
                     <small id="kategoriError" class="error-text" aria-live="polite"></small>
-                </div>
+                </p>
 
-                <div class="form-group">
+                <p class="form-group">
                     <label for="tanggal">Tanggal Laporan *</label>
                     <input type="date" id="tanggal" name="tanggal" required aria-describedby="tanggalError">
                     <small id="tanggalError" class="error-text" aria-live="polite"></small>
-                </div>
+                </p>
 
-                <div class="form-group">
+                <p class="form-group">
                     <label for="detail">Pesan atau kendala terkait kendaraan *</label>
                     <textarea id="detail" name="detail" rows="4" required aria-describedby="detailError"></textarea>
                     <small id="detailError" class="error-text" aria-live="polite"></small>
-                </div>
+                </p>
 
-                <div class="form-group checkbox-group">
+                <p class="form-group checkbox-group">
                     <label>
                         <input type="checkbox" id="setuju" name="setuju" required aria-describedby="setujuError">
                         Saya menyetujui bahwa data laporan ini adalah benar *
                     </label>
                     <small id="setujuError" class="error-text" aria-live="polite"></small>
-                </div>
+                </p>
 
                 <p>
                     <button type="submit">Kirim Laporan</button>
                 </p>
             </form>
         </section>
-
-        <footer>
-            <p>&copy; 2026 Manajemen daftar Mobil</p>
-        </footer>
     </main>
+
+    <footer>
+        <p>&copy; 2026 Manajemen daftar Mobil</p>
+    </footer>
 </body>
+
+</html>
 
 </html>
