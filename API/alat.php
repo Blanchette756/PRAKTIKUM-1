@@ -86,22 +86,77 @@ try {
             ]);
         }
 
-        $kategori = trim((string)($_GET['kategori'] ?? ''));
+        $where = [];
+        $params = [];
 
+        $kategori = trim((string)($_GET['kategori'] ?? ''));
         if ($kategori !== '') {
-            $stmt = db()->prepare('SELECT * FROM alat WHERE kategori = :kategori ORDER BY id DESC');
-            $stmt->execute(['kategori' => $kategori]);
-        } else {
-            $stmt = db()->query('SELECT * FROM alat ORDER BY id DESC');
+            $where[] = 'kategori = :kategori';
+            $params['kategori'] = $kategori;
         }
 
+        $kondisi = trim((string)($_GET['kondisi'] ?? ''));
+        if ($kondisi !== '') {
+            if (!in_array($kondisi, ['Baik', 'Perlu Cek', 'Rusak'], true)) {
+                kirimError(400, 'Parameter kondisi harus Baik, Perlu Cek, atau Rusak.');
+            }
+            $where[] = 'kondisi = :kondisi';
+            $params['kondisi'] = $kondisi;
+        }
+
+        $cari = trim((string)($_GET['q'] ?? ''));
+        if ($cari !== '') {
+            $where[] = 'nama LIKE :cari';
+            $params['cari'] = '%' . $cari . '%';
+        }
+
+        $sqlWhere = $where ? ' WHERE ' . implode(' AND ', $where) : '';
+
+        $stmt = db()->prepare('SELECT COUNT(*) FROM alat' . $sqlWhere);
+        $stmt->execute($params);
+        $total = (int)$stmt->fetchColumn();
+
+        $pakaiPagination = isset($_GET['page']) || isset($_GET['limit']);
+        $page = filter_var($_GET['page'] ?? 1, FILTER_VALIDATE_INT, [
+            'options' => ['min_range' => 1]
+        ]);
+        $limit = filter_var($_GET['limit'] ?? 10, FILTER_VALIDATE_INT, [
+            'options' => ['min_range' => 1, 'max_range' => 100]
+        ]);
+        if ($page === false || $limit === false) {
+            kirimError(400, 'Parameter page minimal 1 dan limit harus 1-100.');
+        }
+
+        $sql = 'SELECT * FROM alat' . $sqlWhere . ' ORDER BY id DESC';
+        if ($pakaiPagination) {
+            $sql .= ' LIMIT :limit OFFSET :offset';
+        }
+
+        $stmt = db()->prepare($sql);
+        foreach ($params as $key => $value) {
+            $stmt->bindValue($key, $value);
+        }
+        if ($pakaiPagination) {
+            $stmt->bindValue('limit', $limit, PDO::PARAM_INT);
+            $stmt->bindValue('offset', ($page - 1) * $limit, PDO::PARAM_INT);
+        }
+        $stmt->execute();
         $data = $stmt->fetchAll();
 
-        kirimJson(200, [
+        $respons = [
             'status' => 'success',
-            'total' => count($data),
+            'total' => $total,
             'data' => $data
-        ]);
+        ];
+        if ($pakaiPagination) {
+            $respons['pagination'] = [
+                'page' => $page,
+                'limit' => $limit,
+                'total_page' => (int)ceil($total / $limit)
+            ];
+        }
+
+        kirimJson(200, $respons);
     }
 
     if ($method === 'POST') {
