@@ -6,7 +6,6 @@ function db(): PDO {
         return $pdo;
     }
 
-    // Baca kredensial dari file .env (tidak ikut ter-commit ke Git)
     require_once dirname(__DIR__) . '/vendor/autoload.php';
     Dotenv\Dotenv::createImmutable(dirname(__DIR__))->safeLoad();
 

@@ -1,5 +1,6 @@
 <?php
 header('Content-Type: application/json; charset=utf-8');
+ini_set('display_errors', '0');
 
 require_once dirname(__DIR__) . '/config/database.php';
 
@@ -60,68 +61,139 @@ function validasiAlat(array $input): array {
     return compact('nama', 'kategori', 'jumlah', 'kondisi');
 }
 
-if ($method === 'GET') {
-    // ===== GET BY ID: /API/alat.php?id=1 =====
-    if (isset($_GET['id'])) {
-        $id = filter_var($_GET['id'], FILTER_VALIDATE_INT, [
-            'options' => ['min_range' => 1]
-        ]);
+try {
+    if ($method === 'GET') {
+        if (isset($_GET['id'])) {
+            $id = filter_var($_GET['id'], FILTER_VALIDATE_INT, [
+                'options' => ['min_range' => 1]
+            ]);
 
-        if ($id === false) {
-            kirimError(400, 'Parameter id harus berupa angka bulat positif.');
+            if ($id === false) {
+                kirimError(400, 'Parameter id harus berupa angka bulat positif.');
+            }
+
+            $stmt = db()->prepare('SELECT * FROM alat WHERE id = :id');
+            $stmt->execute(['id' => $id]);
+            $alat = $stmt->fetch();
+
+            if (!$alat) {
+                kirimError(404, "Data alat dengan id {$id} tidak ditemukan.");
+            }
+
+            kirimJson(200, [
+                'status' => 'success',
+                'data' => $alat
+            ]);
         }
 
-        $stmt = db()->prepare('SELECT * FROM alat WHERE id = :id');
-        $stmt->execute(['id' => $id]);
-        $alat = $stmt->fetch();
+        $kategori = trim((string)($_GET['kategori'] ?? ''));
 
-        if (!$alat) {
-            kirimError(404, "Data alat dengan id {$id} tidak ditemukan.");
+        if ($kategori !== '') {
+            $stmt = db()->prepare('SELECT * FROM alat WHERE kategori = :kategori ORDER BY id DESC');
+            $stmt->execute(['kategori' => $kategori]);
+        } else {
+            $stmt = db()->query('SELECT * FROM alat ORDER BY id DESC');
         }
+
+        $data = $stmt->fetchAll();
 
         kirimJson(200, [
             'status' => 'success',
+            'total' => count($data),
+            'data' => $data
+        ]);
+    }
+
+    if ($method === 'POST') {
+        $input = bacaBodyJson();
+        $alat = validasiAlat($input);
+
+        $stmt = db()->prepare(
+            'INSERT INTO alat (nama, kategori, jumlah, kondisi)
+             VALUES (:nama, :kategori, :jumlah, :kondisi)'
+        );
+        $stmt->execute($alat);
+
+        $alat = ['id' => (int)db()->lastInsertId()] + $alat;
+
+        kirimJson(201, [
+            'status' => 'success',
+            'message' => 'Data alat berhasil ditambahkan.',
             'data' => $alat
         ]);
     }
 
-    // ===== GET COLLECTION: /API/alat.php atau ?kategori=SUV =====
-    $kategori = trim((string)($_GET['kategori'] ?? ''));
+    if ($method === 'PUT' || $method === 'PATCH') {
+        $id = filter_var($_GET['id'] ?? null, FILTER_VALIDATE_INT, [
+            'options' => ['min_range' => 1]
+        ]);
+        if ($id === false) {
+            kirimError(400, 'Parameter id wajib diisi dan harus angka bulat positif.');
+        }
 
-    if ($kategori !== '') {
-        $stmt = db()->prepare('SELECT * FROM alat WHERE kategori = :kategori ORDER BY id DESC');
-        $stmt->execute(['kategori' => $kategori]);
-    } else {
-        $stmt = db()->query('SELECT * FROM alat ORDER BY id DESC');
+        $stmt = db()->prepare('SELECT nama, kategori, jumlah, kondisi FROM alat WHERE id = :id');
+        $stmt->execute(['id' => $id]);
+        $lama = $stmt->fetch();
+        if (!$lama) {
+            kirimError(404, "Data alat dengan id {$id} tidak ditemukan.");
+        }
+
+        $input = bacaBodyJson();
+        if ($method === 'PATCH') {
+            $diubah = array_intersect_key($input, $lama);
+            if (!$diubah) {
+                kirimError(422, 'Tidak ada field yang diubah.', [
+                    'body' => 'Isi minimal satu field: nama, kategori, jumlah, atau kondisi.'
+                ]);
+            }
+            $input = $diubah + $lama;
+        }
+        $alat = validasiAlat($input);
+
+        $stmt = db()->prepare(
+            'UPDATE alat
+             SET nama = :nama, kategori = :kategori, jumlah = :jumlah, kondisi = :kondisi
+             WHERE id = :id'
+        );
+        $stmt->execute($alat + ['id' => $id]);
+
+        kirimJson(200, [
+            'status' => 'success',
+            'message' => 'Data alat berhasil diperbarui.',
+            'data' => ['id' => $id] + $alat
+        ]);
     }
 
-    $data = $stmt->fetchAll();
+    if ($method === 'DELETE') {
+        $id = filter_var($_GET['id'] ?? null, FILTER_VALIDATE_INT, [
+            'options' => ['min_range' => 1]
+        ]);
+        if ($id === false) {
+            kirimError(400, 'Parameter id wajib diisi dan harus angka bulat positif.');
+        }
 
-    kirimJson(200, [
-        'status' => 'success',
-        'total' => count($data),
-        'data' => $data
-    ]);
+        $stmt = db()->prepare('SELECT id FROM alat WHERE id = :id');
+        $stmt->execute(['id' => $id]);
+        if (!$stmt->fetch()) {
+            kirimError(404, "Data alat dengan id {$id} tidak ditemukan.");
+        }
+
+        try {
+            $stmt = db()->prepare('DELETE FROM alat WHERE id = :id');
+            $stmt->execute(['id' => $id]);
+        } catch (PDOException $e) {
+            if ($e->getCode() === '23000') {
+                kirimError(409, 'Data alat masih dipakai di tabel peminjaman, tidak bisa dihapus.');
+            }
+            throw $e;
+        }
+
+        http_response_code(204);
+        exit();
+    }
+
+    kirimError(405, 'Method tidak diizinkan.');
+} catch (Throwable $e) {
+    error_log('[API alat] ' . $e->getMessage() . ' di ' . $e->getFile() . ':' . $e->getLine());
+    kirimError(500, 'Terjadi kesalahan pada server.');
 }
-
-// ===== POST CREATE: /API/alat.php (body JSON) =====
-if ($method === 'POST') {
-    $input = bacaBodyJson();
-    $alat = validasiAlat($input);
-
-    $stmt = db()->prepare(
-        'INSERT INTO alat (nama, kategori, jumlah, kondisi)
-         VALUES (:nama, :kategori, :jumlah, :kondisi)'
-    );
-    $stmt->execute($alat);
-
-    $alat = ['id' => (int)db()->lastInsertId()] + $alat;
-
-    kirimJson(201, [
-        'status' => 'success',
-        'message' => 'Data alat berhasil ditambahkan.',
-        'data' => $alat
-    ]);
-}
-
-kirimError(405, 'Method tidak diizinkan.');
