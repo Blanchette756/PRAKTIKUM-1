@@ -6,10 +6,14 @@ function db(): PDO {
         return $pdo;
     }
 
-    $host = '127.0.0.1';
-    $name = 'pemweb_obe';
-    $user = 'root';
-    $pass = '';
+    // Baca kredensial dari file .env (tidak ikut ter-commit ke Git)
+    require_once dirname(__DIR__) . '/vendor/autoload.php';
+    Dotenv\Dotenv::createImmutable(dirname(__DIR__))->safeLoad();
+
+    $host = $_ENV['DB_HOST'] ?? '127.0.0.1';
+    $name = $_ENV['DB_NAME'] ?? 'pemweb_obe';
+    $user = $_ENV['DB_USER'] ?? 'root';
+    $pass = $_ENV['DB_PASS'] ?? '';
 
     $dsn = "mysql:host={$host};dbname={$name};charset=utf8mb4";
     $pdo = new PDO($dsn, $user, $pass, [
