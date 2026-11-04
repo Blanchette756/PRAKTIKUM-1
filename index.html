@@ -2,8 +2,8 @@
 <html lang="id">
 
 <head>
-    <link rel="stylesheet" href="css/styles.css?v=2">
-    <script type="module" src="js/app.js?v=3"></script>
+    <link rel="stylesheet" href="css/styles.css?v=3">
+    <script type="module" src="js/app.js?v=4"></script>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description"
@@ -44,7 +44,8 @@
                         <p class="filter-actions" style="margin: 0; display: flex; gap: 0.5rem; flex-wrap: wrap;">
                             <button data-filter="Semua">Semua</button>
                             <button data-filter="Baik">Baik</button>
-                            <button data-filter="Perlu Servis">Perlu Servis</button>
+                            <button data-filter="Perlu Cek">Perlu Cek</button>
+                            <button data-filter="Rusak">Rusak</button>
                         </p>
 
                         <p class="pagination-wrapper" style="margin: 0;">
@@ -55,6 +56,58 @@
                                 <option value="20">20 item</option>
                             </select>
                         </p>
+                    </section>
+
+                    <section class="alat-form-wrapper" aria-labelledby="judul-form-alat">
+                        <h4 id="judul-form-alat">Tambah Data Mobil</h4>
+
+                        <output id="alat-feedback" class="status-box" aria-live="polite" hidden></output>
+
+                        <form id="alat-form" novalidate>
+                            <input type="hidden" id="alat-id" name="id">
+
+                            <p class="form-group">
+                                <label for="alat-nama">Nama Mobil *</label>
+                                <input type="text" id="alat-nama" name="nama" required minlength="3" maxlength="120"
+                                    aria-describedby="alat-namaError" placeholder="Contoh: Toyota Avanza 1.3 G">
+                                <small id="alat-namaError" class="error-text" aria-live="polite"></small>
+                            </p>
+
+                            <p class="form-group">
+                                <label for="alat-kategori">Kategori *</label>
+                                <input type="text" id="alat-kategori" name="kategori" list="daftar-kategori" required
+                                    maxlength="80" aria-describedby="alat-kategoriError" placeholder="MPV, SUV, City Car">
+                                <datalist id="daftar-kategori">
+                                    <option value="MPV"></option>
+                                    <option value="City Car"></option>
+                                    <option value="SUV"></option>
+                                </datalist>
+                                <small id="alat-kategoriError" class="error-text" aria-live="polite"></small>
+                            </p>
+
+                            <p class="form-group">
+                                <label for="alat-jumlah">Jumlah Unit *</label>
+                                <input type="number" id="alat-jumlah" name="jumlah" min="0" step="1" required
+                                    aria-describedby="alat-jumlahError">
+                                <small id="alat-jumlahError" class="error-text" aria-live="polite"></small>
+                            </p>
+
+                            <p class="form-group">
+                                <label for="alat-kondisi">Kondisi *</label>
+                                <select id="alat-kondisi" name="kondisi" required aria-describedby="alat-kondisiError">
+                                    <option value="">-- Pilih Kondisi --</option>
+                                    <option value="Baik">Baik</option>
+                                    <option value="Perlu Cek">Perlu Cek</option>
+                                    <option value="Rusak">Rusak</option>
+                                </select>
+                                <small id="alat-kondisiError" class="error-text" aria-live="polite"></small>
+                            </p>
+
+                            <p class="form-actions">
+                                <button type="submit" id="alat-submit">Simpan Data</button>
+                                <button type="button" id="alat-batal" class="btn-batal" hidden>Batal Edit</button>
+                            </p>
+                        </form>
                     </section>
 
                     <aside id="status-loading" class="status-box loading-box" role="status" hidden>

@@ -336,3 +336,53 @@ button[data-filter] {
         grid-template-columns: repeat(3, 1fr);
     }
 }
+.alat-form-wrapper {
+    margin: 1rem 0;
+    padding: 1rem;
+    border: 1px solid #ddd;
+    border-radius: var(--radius);
+    background: var(--surface);
+}
+
+.form-actions {
+    display: flex;
+    gap: 0.5rem;
+    margin: 0;
+}
+
+.btn-batal {
+    background: #e5e7eb;
+    color: #111827;
+    font-weight: 600;
+}
+
+.success-box {
+    background: #ecfdf5;
+    border: 1px solid #a7f3d0;
+    color: #065f46;
+}
+
+[data-theme="dark"] .status-box.success-box {
+    background: #052e16;
+    border-color: #166534;
+    color: #86efac;
+}
+
+.card-actions {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    margin: 0.5rem 0 0;
+}
+
+.btn-edit {
+    background: #eef2ff;
+    color: #3730a3;
+    font-weight: 600;
+}
+
+.btn-hapus {
+    background: #fef2f2;
+    color: #b91c1c;
+    font-weight: 600;
+}

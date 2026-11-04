@@ -1,14 +1,35 @@
 import { ringkasMobil } from './utils.js';
 
 let daftarMobil = [];
-const ENDPOINT_MOBIL = './data/Mobil.json';
+const ENDPOINT_ALAT = './API/alat.php';
+
+async function requestApi(url, options = {}) {
+    const headers = { 'Accept': 'application/json' };
+    if (options.body) {
+        headers['Content-Type'] = 'application/json';
+    }
+
+    const response = await fetch(url, { ...options, headers });
+
+    if (response.status === 204) {
+        return null;
+    }
+
+    const payload = await response.json().catch(() => ({}));
+
+    if (!response.ok) {
+        const error = new Error(payload.error?.message ?? `HTTP ${response.status}`);
+        error.status = response.status;
+        error.fields = payload.error?.fields ?? {};
+        throw error;
+    }
+
+    return payload;
+}
 
 async function fetchMobil() {
-    const response = await fetch(ENDPOINT_MOBIL);
-    if (!response.ok) {
-        throw new Error(`HTTP ${response.status}: Gagal memuat data kendaraan`);
-    }
-    return await response.json();
+    const payload = await requestApi(ENDPOINT_ALAT);
+    return payload.data;
 }
 
 function cariMobilById(id) {
@@ -214,12 +235,26 @@ function renderItems() {
         const info = document.createElement('p');
         info.textContent = `${item.kategori} - ${item.jumlah} unit - ${item.kondisi}`;
 
-        const btnDetail = document.createElement('button');
-        btnDetail.className = 'btn-detail';
-        btnDetail.textContent = 'Detail Mobil';
-        btnDetail.style.marginTop = '0.5rem';
+        const actions = document.createElement('p');
+        actions.className = 'card-actions';
 
-        article.append(title, info, btnDetail);
+        const btnDetail = document.createElement('button');
+        btnDetail.type = 'button';
+        btnDetail.className = 'btn-detail';
+        btnDetail.textContent = 'Detail';
+
+        const btnEdit = document.createElement('button');
+        btnEdit.type = 'button';
+        btnEdit.className = 'btn-edit';
+        btnEdit.textContent = 'Edit';
+
+        const btnHapus = document.createElement('button');
+        btnHapus.type = 'button';
+        btnHapus.className = 'btn-hapus';
+        btnHapus.textContent = 'Hapus';
+
+        actions.append(btnDetail, btnEdit, btnHapus);
+        article.append(title, info, actions);
         daftar.append(article);
     });
 }
@@ -237,16 +272,149 @@ searchInput.addEventListener('input', (e) => {
 });
 
 daftar.addEventListener('click', (e) => {
-    if (e.target.classList.contains('btn-detail')) {
-        const card = e.target.closest('.card');
-        const itemId = card.dataset.id;
-        const selectedItem = daftarMobil.find(item => item.id == parseInt(itemId));
+    const card = e.target.closest('.card');
+    if (!card) {
+        return;
+    }
+    const itemId = Number(card.dataset.id);
 
+    if (e.target.classList.contains('btn-detail')) {
+        const selectedItem = daftarMobil.find(item => item.id === itemId);
         if (selectedItem) {
-            alert(`[INFO MOBIL]\nNama: ${selectedItem.nama}\nLokasi: ${selectedItem.lokasi}\nJumlah: ${selectedItem.jumlah}\nKondisi: ${selectedItem.kondisi}`);
+            alert(`[INFO MOBIL]\nNama: ${selectedItem.nama}\nKategori: ${selectedItem.kategori}\nJumlah: ${selectedItem.jumlah}\nKondisi: ${selectedItem.kondisi}`);
         }
     }
+
+    if (e.target.classList.contains('btn-edit')) {
+        mulaiEdit(itemId);
+    }
+
+    if (e.target.classList.contains('btn-hapus')) {
+        hapusAlat(itemId);
+    }
 });
+
+const alatForm = document.getElementById('alat-form');
+const alatJudul = document.getElementById('judul-form-alat');
+const alatFeedback = document.getElementById('alat-feedback');
+const alatSubmit = document.getElementById('alat-submit');
+const alatBatal = document.getElementById('alat-batal');
+const alatFields = {
+    id: document.getElementById('alat-id'),
+    nama: document.getElementById('alat-nama'),
+    kategori: document.getElementById('alat-kategori'),
+    jumlah: document.getElementById('alat-jumlah'),
+    kondisi: document.getElementById('alat-kondisi')
+};
+const kolomAlat = ['nama', 'kategori', 'jumlah', 'kondisi'];
+
+function tampilkanFeedback(pesan, tipe) {
+    alatFeedback.textContent = pesan;
+    alatFeedback.className = `status-box ${tipe === 'error' ? 'error-box' : 'success-box'}`;
+    alatFeedback.hidden = false;
+}
+
+function bersihkanErrorAlat() {
+    kolomAlat.forEach(name => {
+        alatFields[name].classList.remove('input-error');
+        document.getElementById(`alat-${name}Error`).textContent = '';
+    });
+}
+
+function tampilkanErrorAlat(fieldErrors) {
+    Object.entries(fieldErrors).forEach(([name, pesan]) => {
+        const errorText = document.getElementById(`alat-${name}Error`);
+        if (alatFields[name] && errorText) {
+            alatFields[name].classList.add('input-error');
+            errorText.textContent = pesan;
+        }
+    });
+}
+
+function resetFormAlat() {
+    alatForm.reset();
+    alatFields.id.value = '';
+    alatJudul.textContent = 'Tambah Data Mobil';
+    alatSubmit.textContent = 'Simpan Data';
+    alatBatal.hidden = true;
+    bersihkanErrorAlat();
+}
+
+async function mulaiEdit(id) {
+    try {
+        const payload = await requestApi(`${ENDPOINT_ALAT}?id=${encodeURIComponent(id)}`);
+        const alat = payload.data;
+
+        alatFields.id.value = alat.id;
+        kolomAlat.forEach(name => {
+            alatFields[name].value = alat[name];
+        });
+
+        alatJudul.textContent = `Edit Data Mobil #${alat.id}`;
+        alatSubmit.textContent = 'Simpan Perubahan';
+        alatBatal.hidden = false;
+        bersihkanErrorAlat();
+        alatForm.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        alatFields.nama.focus();
+    } catch (error) {
+        tampilkanFeedback(error.message, 'error');
+    }
+}
+
+async function hapusAlat(id) {
+    const alat = daftarMobil.find(item => item.id === id);
+    const nama = alat ? alat.nama : `id ${id}`;
+
+    if (!confirm(`Hapus data "${nama}"?`)) {
+        return;
+    }
+
+    try {
+        await requestApi(`${ENDPOINT_ALAT}?id=${encodeURIComponent(id)}`, { method: 'DELETE' });
+        if (Number(alatFields.id.value) === id) {
+            resetFormAlat();
+        }
+        tampilkanFeedback(`Data "${nama}" berhasil dihapus.`, 'success');
+        await initDashboard();
+    } catch (error) {
+        tampilkanFeedback(error.message, 'error');
+    }
+}
+
+alatForm.addEventListener('submit', async (event) => {
+    event.preventDefault();
+    bersihkanErrorAlat();
+
+    const id = alatFields.id.value;
+    const jumlah = alatFields.jumlah.value;
+    const body = {
+        nama: alatFields.nama.value,
+        kategori: alatFields.kategori.value,
+        jumlah: jumlah === '' ? null : Number(jumlah),
+        kondisi: alatFields.kondisi.value
+    };
+
+    alatSubmit.disabled = true;
+
+    try {
+        const url = id ? `${ENDPOINT_ALAT}?id=${encodeURIComponent(id)}` : ENDPOINT_ALAT;
+        const payload = await requestApi(url, {
+            method: id ? 'PUT' : 'POST',
+            body: JSON.stringify(body)
+        });
+
+        tampilkanFeedback(payload.message, 'success');
+        resetFormAlat();
+        await initDashboard();
+    } catch (error) {
+        tampilkanErrorAlat(error.fields ?? {});
+        tampilkanFeedback(error.message, 'error');
+    } finally {
+        alatSubmit.disabled = false;
+    }
+});
+
+alatBatal.addEventListener('click', resetFormAlat);
 
 itemsPerPageSelect.addEventListener('change', (e) => {
     itemsPerPage = parseInt(e.target.value);
