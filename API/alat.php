@@ -3,6 +3,7 @@ header('Content-Type: application/json; charset=utf-8');
 ini_set('display_errors', '0');
 
 require_once dirname(__DIR__) . '/config/database.php';
+require_once __DIR__ . '/middleware.php';
 
 $method = $_SERVER['REQUEST_METHOD'];
 
@@ -160,6 +161,8 @@ try {
     }
 
     if ($method === 'POST') {
+        requireRole(['admin', 'petugas']);
+
         $input = bacaBodyJson();
         $alat = validasiAlat($input);
 
@@ -179,6 +182,8 @@ try {
     }
 
     if ($method === 'PUT' || $method === 'PATCH') {
+        requireRole(['admin', 'petugas']);
+
         $id = filter_var($_GET['id'] ?? null, FILTER_VALIDATE_INT, [
             'options' => ['min_range' => 1]
         ]);
@@ -220,6 +225,8 @@ try {
     }
 
     if ($method === 'DELETE') {
+        requireRole(['admin']);
+
         $id = filter_var($_GET['id'] ?? null, FILTER_VALIDATE_INT, [
             'options' => ['min_range' => 1]
         ]);
