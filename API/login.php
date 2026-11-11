@@ -4,6 +4,7 @@ ini_set('display_errors', '0');
 
 require_once __DIR__ . '/middleware.php';
 require_once dirname(__DIR__) . '/config/database.php';
+require_once dirname(__DIR__) . '/config/session.php';
 
 jsonMiddleware();
 
@@ -28,6 +29,8 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     header('Allow: POST');
     kirimError(405, 'Method tidak diizinkan. Gunakan POST.');
 }
+
+mulaiSession();
 
 try {
     $input = json_decode(file_get_contents('php://input'), true);
@@ -56,6 +59,10 @@ try {
     if (!$user || !password_verify($password, $user['password_hash'])) {
         kirimError(401, 'Email atau password salah.');
     }
+
+    session_regenerate_id(true);
+    $_SESSION['user_id'] = (int)$user['id'];
+    $_SESSION['role'] = $user['role'];
 
     kirimJson(200, [
         'status' => 'success',

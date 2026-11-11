@@ -1,6 +1,8 @@
 <?php
 declare(strict_types=1);
 
+require_once dirname(__DIR__) . '/config/session.php';
+
 function jsonMiddleware(): void {
     header('Content-Type: application/json; charset=utf-8');
 
@@ -19,4 +21,39 @@ function jsonMiddleware(): void {
             exit();
         }
     }
+}
+
+function tolakAkses(int $statusCode, string $message): never {
+    http_response_code($statusCode);
+    header('Content-Type: application/json; charset=utf-8');
+    echo json_encode([
+        'error' => [
+            'code' => $statusCode,
+            'message' => $message
+        ]
+    ], JSON_UNESCAPED_UNICODE);
+    exit();
+}
+
+function requireLogin(): array {
+    mulaiSession();
+
+    if (empty($_SESSION['user_id'])) {
+        tolakAkses(401, 'Silakan login terlebih dahulu.');
+    }
+
+    return [
+        'user_id' => (int)$_SESSION['user_id'],
+        'role' => (string)($_SESSION['role'] ?? '')
+    ];
+}
+
+function requireRole(array $roles): array {
+    $user = requireLogin();
+
+    if (!in_array($user['role'], $roles, true)) {
+        tolakAkses(403, 'Akses ditolak. Role Anda tidak memiliki izin untuk aksi ini.');
+    }
+
+    return $user;
 }
