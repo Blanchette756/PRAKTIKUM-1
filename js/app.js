@@ -8,6 +8,9 @@ async function requestApi(url, options = {}) {
     if (options.body) {
         headers['Content-Type'] = 'application/json';
     }
+    if ((options.method ?? 'GET').toUpperCase() !== 'GET') {
+        headers['X-CSRF-Token'] = document.getElementById('alat-csrf')?.value ?? '';
+    }
 
     const response = await fetch(url, { ...options, headers });
 
@@ -127,12 +130,19 @@ function renderErrorSummary(errors) {
 
     if (!errors.length) {
         errorSummary.hidden = true;
-        errorSummary.innerHTML = '';
+        errorSummary.replaceChildren();
         return;
     }
 
+    const list = document.createElement('ul');
+    errors.forEach(error => {
+        const item = document.createElement('li');
+        item.textContent = error;
+        list.append(item);
+    });
+
     errorSummary.hidden = false;
-    errorSummary.innerHTML = `<ul>${errors.map(error => `<li>${error}</li>`).join('')}</ul>`;
+    errorSummary.replaceChildren(list);
 }
 
 function validateForm() {
@@ -463,4 +473,14 @@ if (btnRetry) {
     });
 }
 
+async function muatCsrfToken() {
+    try {
+        const payload = await requestApi('./API/me.php');
+        document.getElementById('alat-csrf').value = payload.data.csrf_token;
+    } catch (error) {
+        document.getElementById('alat-csrf').value = '';
+    }
+}
+
+muatCsrfToken();
 initDashboard();

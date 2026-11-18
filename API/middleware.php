@@ -57,3 +57,24 @@ function requireRole(array $roles): array {
 
     return $user;
 }
+
+function buatCsrfToken(): string {
+    mulaiSession();
+
+    if (empty($_SESSION['csrf'])) {
+        $_SESSION['csrf'] = bin2hex(random_bytes(32));
+    }
+
+    return $_SESSION['csrf'];
+}
+
+function requireCsrf(): void {
+    mulaiSession();
+
+    $tokenSession = (string)($_SESSION['csrf'] ?? '');
+    $tokenRequest = (string)($_SERVER['HTTP_X_CSRF_TOKEN'] ?? '');
+
+    if ($tokenSession === '' || !hash_equals($tokenSession, $tokenRequest)) {
+        tolakAkses(403, 'Permintaan tidak valid. CSRF token tidak cocok.');
+    }
+}

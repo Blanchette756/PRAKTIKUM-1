@@ -162,6 +162,7 @@ try {
 
     if ($method === 'POST') {
         requireRole(['admin', 'petugas']);
+        requireCsrf();
 
         $input = bacaBodyJson();
         $alat = validasiAlat($input);
@@ -183,6 +184,7 @@ try {
 
     if ($method === 'PUT' || $method === 'PATCH') {
         requireRole(['admin', 'petugas']);
+        requireCsrf();
 
         $id = filter_var($_GET['id'] ?? null, FILTER_VALIDATE_INT, [
             'options' => ['min_range' => 1]
@@ -226,6 +228,7 @@ try {
 
     if ($method === 'DELETE') {
         requireRole(['admin']);
+        requireCsrf();
 
         $id = filter_var($_GET['id'] ?? null, FILTER_VALIDATE_INT, [
             'options' => ['min_range' => 1]

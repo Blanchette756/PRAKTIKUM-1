@@ -1,0 +1,8 @@
+Options -Indexes
+
+<FilesMatch "^\.|\.(sql|lock|md|txt|yaml|log)$|^composer\.json$">
+    Require all denied
+</FilesMatch>
+
+RewriteEngine On
+RewriteRule ^(\.git|\.postman|postman|vendor|config|database|txt)(/|$) - [F,L]

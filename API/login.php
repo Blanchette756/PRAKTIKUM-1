@@ -63,6 +63,7 @@ try {
     session_regenerate_id(true);
     $_SESSION['user_id'] = (int)$user['id'];
     $_SESSION['role'] = $user['role'];
+    unset($_SESSION['csrf']);
 
     kirimJson(200, [
         'status' => 'success',
@@ -71,7 +72,8 @@ try {
             'id' => (int)$user['id'],
             'nama' => $user['nama'],
             'email' => $user['email'],
-            'role' => $user['role']
+            'role' => $user['role'],
+            'csrf_token' => buatCsrfToken()
         ]
     ]);
 } catch (Throwable $e) {
