@@ -1,102 +1,173 @@
 <?php
-header('Content-Type: application/json; charset=utf-8');
 
 require_once dirname(__DIR__) . '/config/database.php';
 
-$method = $_SERVER['REQUEST_METHOD'];
+function tampilkanDaftarMobil(): never
+{
+    $kategori = ambilKategoriDariUrl();
+    $query = siapkanQueryDaftarMobil($kategori);
+    $stmt = jalankanQuery($query);
+    $daftarMobil = $stmt->fetchAll();
 
-if ($method === 'GET') {
-    $kategori = $_GET['kategori'] ?? null;
-
-    if ($kategori) {
-        $stmt = db()->prepare('SELECT * FROM alat WHERE kategori = :kategori ORDER BY id DESC');
-        $stmt->execute(['kategori' => $kategori]);
-    } else {
-        $stmt = db()->query('SELECT * FROM alat ORDER BY id DESC');
-    }
-
-    $data = $stmt->fetchAll();
-
-    http_response_code(200);
-    echo json_encode([
+    kirimJson(200, [
         'status' => 'success',
-        'data' => $data
+        'data' => $daftarMobil
     ]);
-    exit();
 }
 
-if ($method === 'POST') {
-    $rawInput = file_get_contents('php://input');
+function ambilKategoriDariUrl(): ?string
+{
+    return $_GET['kategori'] ?? null;
+}
+
+function siapkanQueryDaftarMobil(?string $kategori): array
+{
+    if ($kategori) {
+        return [
+            'sql' => 'SELECT * FROM alat WHERE kategori = :kategori ORDER BY id DESC',
+            'params' => ['kategori' => $kategori]
+        ];
+    }
+
+    return [
+        'sql' => 'SELECT * FROM alat ORDER BY id DESC',
+        'params' => []
+    ];
+}
+
+function jalankanQuery(array $query): PDOStatement
+{
+    $stmt = db()->prepare($query['sql']);
+    $stmt->execute($query['params']);
+    return $stmt;
+}
+
+function tambahMobil(): never
+{
+    $rawInput = ambilBodyRequest();
+    $data = bacaJson($rawInput);
+    $mobil = rapikanDataMobil($data);
+    validasiDataMobil($mobil);
+    $mobil = simpanMobil($mobil);
+
+    kirimJson(201, [
+        'status' => 'success',
+        'code' => 201,
+        'message' => 'Data unit mobil berhasil ditambahkan ke basis data',
+        'data' => $mobil
+    ]);
+}
+
+function ambilBodyRequest(): string
+{
+    return (string) file_get_contents('php://input');
+}
+
+function bacaJson(string $rawInput): array
+{
     $data = json_decode($rawInput, true);
 
-    if (json_last_error() !== JSON_ERROR_NONE || empty($rawInput)) {
-        http_response_code(400);
-        echo json_encode([
+    if ($rawInput === '' || json_last_error() !== JSON_ERROR_NONE) {
+        kirimJson(400, [
             'status' => 'error',
             'code' => 400,
             'message' => 'Format JSON tidak valid atau body kosong: ' . json_last_error_msg()
         ]);
-        exit();
     }
 
+    if (!is_array($data)) {
+        kirimJson(400, [
+            'status' => 'error',
+            'code' => 400,
+            'message' => 'Format JSON tidak valid atau body kosong: body harus berupa objek JSON.'
+        ]);
+    }
+
+    return $data;
+}
+
+function rapikanDataMobil(array $data): array
+{
+    $rapikan = fn(string $kunci): string =>
+        isset($data[$kunci]) && is_scalar($data[$kunci]) ? trim((string) $data[$kunci]) : '';
+
+    return [
+        'nama' => $rapikan('nama'),
+        'kategori' => $rapikan('kategori'),
+        'jumlah' => $data['jumlah'] ?? null,
+        'kondisi' => $rapikan('kondisi')
+    ];
+}
+
+function validasiDataMobil(array $mobil): void
+{
     $errors = [];
 
-    if (empty($data['nama']) || strlen(trim($data['nama'])) < 3) {
+    if (strlen($mobil['nama']) < 3) {
         $errors['nama'] = 'Nama unit mobil wajib diisi dan minimal 3 karakter.';
     }
 
-    if (empty($data['kategori'])) {
+    if ($mobil['kategori'] === '') {
         $errors['kategori'] = 'Kategori kendaraan wajib diisi.';
     }
 
-    if (!isset($data['jumlah']) || !is_numeric($data['jumlah']) || (int)$data['jumlah'] <= 0) {
+    if (!is_numeric($mobil['jumlah']) || (int) $mobil['jumlah'] <= 0) {
         $errors['jumlah'] = 'Jumlah unit harus berupa angka bulat lebih besar dari 0.';
     }
 
-    if (empty($data['kondisi'])) {
+    if ($mobil['kondisi'] === '') {
         $errors['kondisi'] = 'Kondisi kendaraan wajib diisi.';
     }
 
     if (!empty($errors)) {
-        http_response_code(422);
-        echo json_encode([
+        kirimJson(422, [
             'status' => 'fail',
             'code' => 422,
             'message' => 'Data tidak memenuhi aturan bisnis yang ditentukan.',
             'errors' => $errors
         ]);
-        exit();
     }
+}
+
+function simpanMobil(array $mobil): array
+{
+    $mobil['jumlah'] = (int) $mobil['jumlah'];
 
     $stmt = db()->prepare('INSERT INTO alat (nama, kategori, jumlah, kondisi) VALUES (:nama, :kategori, :jumlah, :kondisi)');
-    $stmt->execute([
-        'nama' => trim($data['nama']),
-        'kategori' => trim($data['kategori']),
-        'jumlah' => (int)$data['jumlah'],
-        'kondisi' => trim($data['kondisi'])
-    ]);
+    $stmt->execute($mobil);
 
-    $newId = (int)db()->lastInsertId();
+    return ['id' => (int) db()->lastInsertId()] + $mobil;
+}
 
-    http_response_code(201);
-    echo json_encode([
-        'status' => 'success',
-        'code' => 201,
-        'message' => 'Data unit mobil berhasil ditambahkan ke basis data',
-        'data' => [
-            'id' => $newId,
-            'nama' => trim($data['nama']),
-            'kategori' => trim($data['kategori']),
-            'jumlah' => (int)$data['jumlah'],
-            'kondisi' => trim($data['kondisi'])
-        ]
-    ]);
+function kirimJson(int $statusCode, array $isi): never
+{
+    http_response_code($statusCode);
+    header('Content-Type: application/json; charset=utf-8');
+    echo json_encode($isi);
     exit();
 }
 
-http_response_code(405);
-echo json_encode([
-    'status' => 'error',
-    'code' => 405,
-    'message' => 'Method Not Allowed'
-]);
+try {
+    $method = $_SERVER['REQUEST_METHOD'] ?? '';
+
+    if ($method === 'GET') {
+        tampilkanDaftarMobil();
+    }
+
+    if ($method === 'POST') {
+        tambahMobil();
+    }
+
+    kirimJson(405, [
+        'status' => 'error',
+        'code' => 405,
+        'message' => 'Method Not Allowed'
+    ]);
+} catch (PDOException $e) {
+    error_log('[alat.php] ' . $e->getMessage());
+    kirimJson(500, [
+        'status' => 'error',
+        'code' => 500,
+        'message' => 'Database sedang bermasalah. Coba lagi nanti.'
+    ]);
+}
